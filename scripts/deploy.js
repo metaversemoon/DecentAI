@@ -29,7 +29,7 @@ async function main() {
   console.log("Nonce of deployer account : ", await deployer.getTransactionCount());
 
 
-  overrides = { gasLimit: 5000000, gasPrice: ethers.utils.parseUnits('500', 'gwei'), nonce: 116 };
+  overrides = { gasLimit: 5000000, gasPrice: ethers.utils.parseUnits('300', 'gwei'), nonce: 130 };
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
@@ -42,7 +42,7 @@ async function main() {
 
   console.log("InferenceManager address:", inferenceManager.address);
 
-  overrides.nonce = 117;
+  overrides.nonce = 131;
 
   const Token = await ethers.getContractFactory("DecentralizedAI");
   const token = await Token.deploy(inferenceManager.address, overrides);
@@ -82,7 +82,29 @@ async function main() {
 
   await sleep(150000);
 
+  delete overrides.nonce;
+
   // Do tests here
+
+  var tx = await inferenceManager.setToken(token.address, overrides);
+  await tx.wait();
+
+  tx = await inferenceManager.registerResponder(0, overrides);
+  await tx.wait();
+
+  tx = await inferenceManager.requestInference("People skiing in Denver mountains", await deployer.getAddress(), 0, overrides);
+  await tx.wait();
+
+  // Image of cat
+  // var tx = await inferenceManager.recieveInference(0, "https://images.unsplash.com/photo-1606787758881-8e1b0b5b0f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80");
+
+  tx = await inferenceManager.recieveInference(1, "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/362px-Cat_August_2010-4.jpg", overrides);
+  await tx.wait();
+
+
+  tx = await inferenceManager.rateInference(1, 0, 9, overrides);
+  await tx.wait();
+
 
 
   // We also save the contract's artifacts and address in the frontend directory

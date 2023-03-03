@@ -27,7 +27,7 @@ contract InferenceManager is Ownable {
     mapping(uint256 => Request) public requests;
 
     // Events are fired which contain information about the requested inference
-    event RequestRecieved(address indexed requestor, string prompt, uint256 offer, address indexed responder);
+    event RequestRecieved(address indexed requestor, uint256 requestId, string prompt, uint256 offer, address indexed responder);
 
     struct Response {
         string url;
@@ -53,10 +53,13 @@ contract InferenceManager is Ownable {
     mapping(address => Responder) public responders;
 
     // Event is fired when a responder is added
-    event ResponderAdded(address indexed responder);
+    event ResponderAdded(address indexed responder, uint256 cost);
 
     // Event is added when a responser is removed
     event ResponderRemoved(address indexed responder);
+
+    // Event to fire when rating is recieved
+    event RatingRecieved( uint256 requestId, uint256 inferenceId, address indexed responder, address indexed rater, uint256 rating);
 
     // ERC20 token address
     address public token;
@@ -77,13 +80,14 @@ contract InferenceManager is Ownable {
 
     // Add a request
     function requestInference(string calldata prompt, address responder, uint256 offer) public {
-        require(offer > 0, "Offer must be greater than 0");
+        // require(offer > 0, "Offer must be greater than 0");
         requestId++;
         requests[requestId] = Request(block.timestamp, 0, offer, responder, false);
-        emit RequestRecieved(msg.sender, prompt, offer, responder);
 
         // Transfer the required cost in ERC20 tokens to the contract // TODO think about withdrawal
         IERC20(token).transferFrom(msg.sender, address(this), offer);
+
+        emit RequestRecieved(msg.sender, requestId, prompt, offer, responder);
 
     }
 
@@ -108,12 +112,14 @@ contract InferenceManager is Ownable {
         // a. build up a profile
         // b. get user ratings
 
+        emit ResponseRecieved(id, msg.sender, url);
+
     }
 
     // Register a responder
     function registerResponder(uint256 cost) public {
         responders[msg.sender] = Responder(true, 0, 0, 0, cost);
-        emit ResponderAdded(msg.sender);
+        emit ResponderAdded(msg.sender, cost);
     }
 
     // Remove a responder 
@@ -123,21 +129,23 @@ contract InferenceManager is Ownable {
     }
 
     // Accept user scoring of inference
-    function scoreInference(uint256 id, uint256 inferenceId, uint256 score) public {
+    function rateInference(uint256 id, uint256 inferenceId, uint256 rating) public {
         require(responses[id].length >= inferenceId, "No such responses for request");
-        require(score > 0 && score < 10, "Score must be between 1 and 10");
+        require(rating > 0 && rating < 10, "rating must be between 1 and 10");
 
-        // Scale score by 1000
-        score = score * 1000;
+        // Scale rating by 1000
+        rating = rating * 1000;
 
-        // Update the average score of the responder using countRating and averageRating
-        responders[responses[id][inferenceId].responder].averageRating = (responders[responses[id][inferenceId].responder].averageRating * responders[responses[id][inferenceId].responder].countRating + score) / (responders[responses[id][inferenceId].responder].countRating + 1);
+        // Update the average rating of the responder using countRating and averageRating
+        responders[responses[id][inferenceId].responder].averageRating = (responders[responses[id][inferenceId].responder].averageRating * responders[responses[id][inferenceId].responder].countRating + rating) / (responders[responses[id][inferenceId].responder].countRating + 1);
 
         // Increment the countRating
         responders[responses[id][inferenceId].responder].countRating++;
 
         // Mint tokens to the rating submitter
         DecentralizedAI(token).mint(msg.sender, RATING_REWARD);
+
+        emit RatingRecieved(id, inferenceId, responses[id][inferenceId].responder, msg.sender, rating);
     }
 
 }

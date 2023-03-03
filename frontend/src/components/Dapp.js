@@ -18,6 +18,8 @@ import { Transfer } from "./Transfer";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+import {getNodes} from "../utils/inferenceHelpers";
+import {getInferences} from "../utils/ratingHelper";
 
 // This is the Hardhat Network id that we set in our hardhat.config.js.
 // Here's a list of network ids https://docs.metamask.io/guide/ethereum-provider.html#properties
@@ -59,6 +61,9 @@ export class Dapp extends React.Component {
   }
 
   render() {
+
+    
+
     // Ethereum wallets inject the window.ethereum object. If it hasn't been
     // injected, we instruct the user to install MetaMask.
     if (window.ethereum === undefined) {
@@ -168,6 +173,8 @@ export class Dapp extends React.Component {
   }
 
   async _connectWallet() {
+    console.log(await getNodes());
+    console.log(await getInferences());
     // This method is run when the user clicks the Connect. It connects the
     // dapp to the user's wallet, and initializes it.
 

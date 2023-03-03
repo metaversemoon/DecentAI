@@ -8,3 +8,14 @@ artifacts
 ## file
 **/mnemonic.txt
 mnemonic.txt*
+
+## file
+**/private-key.txt
+private-key.txt*
+
+## file
+**/private-key.txt
+private-key.txt*
+
+
+*.env
