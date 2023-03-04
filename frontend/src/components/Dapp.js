@@ -237,7 +237,7 @@ export class Dapp extends React.Component {
     // artifact. You can do this same thing with your contracts.
     this._token = new ethers.Contract(
       "0x8af1731Da3e3a0705f5B9738FAD983Cd24332d45",
-      TokenArtifact.abi,
+      TokenArtifact,
       this._provider.getSigner(0)
     );
   }

@@ -17,7 +17,7 @@ const inference_manager_contract = "0x7C14dd39c29a22E69b99E41f7A3E607bfb63d244";
 export async function getNodes() {
 
     // Get all ResponderAdded events from the InferenceManager contract
-    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts.abi, await providers( "matic" ));
+    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( "matic" ));
 
     let reqEventFilter = contract.filters.RequestRecieved();
     let reqEvents = await contract.queryFilter(reqEventFilter);
