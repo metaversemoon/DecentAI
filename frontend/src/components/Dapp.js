@@ -5,8 +5,7 @@ import { ethers } from "ethers";
 
 // We import the contract's artifacts and address here, as we are going to be
 // using them with ethers
-import TokenArtifact from "../contracts/Token.json";
-import contractAddress from "../contracts/contract-address.json";
+import TokenArtifact from "../abis/token.json";
 
 // All the logic of this dapp is contained in the Dapp component.
 // These other components are just presentational ones: they don't have any
@@ -237,7 +236,7 @@ export class Dapp extends React.Component {
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
     this._token = new ethers.Contract(
-      contractAddress.Token,
+      "0x8af1731Da3e3a0705f5B9738FAD983Cd24332d45",
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );

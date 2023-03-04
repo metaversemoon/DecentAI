@@ -6,7 +6,7 @@
 // Textbox for a prompt
 // Textbox for number of tokens to pay for the inference
 import { ethers } from "ethers";
-import InferenceManagerArtifacts from "../contracts/InferenceManager.json";
+import InferenceManagerArtifacts from "../abis/inferenceManager.json";
 
 import { providers } from "./provider";
 
