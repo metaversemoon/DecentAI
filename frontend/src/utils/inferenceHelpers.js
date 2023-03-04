@@ -125,17 +125,20 @@ export async function submitForInference(text, node, offer) {
     let requestId = await contract.requestInference(text, node, offer)
 
     console.log('inference request success')
-    return 23
+    return 25
 }
 
 export async function waitForResponse(requestId, callback) {
-    console.log('listening for event')
+    console.log('listening for event ' + requestId)
     const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( "matic" ));
 
     contract.on("ResponseRecieved", (id, node, url) => {
         console.log('Response is here: ' + id, node, url);
 
+        console.log('original requestId: ' + requestId)
+
         if (id == requestId) {
+            console.log('requestid matches')
             callback(url)
         }
     });

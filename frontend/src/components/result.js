@@ -39,7 +39,8 @@ export default class Result extends Component {
     }
 
     addListener = async () => {
-        waitForResponse((result) => {
+        waitForResponse(this.requestId, (result) => {
+            console.log('all done, updating state')
             this.setState({
                 loading: false,
                 resultImage: result
