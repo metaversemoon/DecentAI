@@ -15,6 +15,8 @@ import {ConnectKitProvider, ConnectKitButton, getDefaultClient} from "connectkit
 import styled from 'styled-components'
 import IndexHeader from './index-header'
 
+import NodeList from "./node-list";
+import Result from "./result";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -88,8 +90,10 @@ class App extends Component {
                     <WagmiConfig client={client}>
                         <ConnectKitProvider>
                         {this.state.page === 'home' ? <Content routeToPage={this.routeToPage}></Content> : ''}
-                            {this.state.page === 'start' ? <NodesList routeToPage={this.routeToPage}
-                                                                         text={this.state.pageData}></NodesList> : ''}
+                        {this.state.page === 'start' ? <NodeList routeToPage={this.routeToPage}
+                                                                         text={this.state.pageData}></NodeList> : ''}
+                        {this.state.page === 'result' ? <Result routeToPage={this.routeToPage}
+                                                                         requestId={this.state.pageData}></Result> : ''}
 
                            
                         </ConnectKitProvider>
@@ -134,11 +138,6 @@ const Content = (props) => {
     </>
 }
 
-const NodesList = (props) => {
-    const {routeToPage, text} = props;
-    console.log('got text: ' + text)
-    console.log('showing nodes list')
-}
 export default App
 
 
