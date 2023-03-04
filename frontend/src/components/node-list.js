@@ -25,6 +25,7 @@ export default class NodeList extends Component {
     constructor(props) {
         super()
         this.routeToPage = props.routeToPage
+        this.text = props.text
         this.state = {
             nodes :[],
             attendeeCount: {},
@@ -56,7 +57,7 @@ export default class NodeList extends Component {
 
                 <div id="node-list-bg">
                     {this.state.nodes.map((node, index) => {
-                    return <NodeListItem node1={node} routeToPage={this.routeToPage} key={index}></NodeListItem>
+                    return <NodeListItem node1={node} text={this.text} routeToPage={this.routeToPage} key={index}></NodeListItem>
                 })}
                 </div>
             </div>

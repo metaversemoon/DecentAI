@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './node-list.css'
+import { ethers } from "ethers";
+
 import Image from 'react-bootstrap/Image'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -8,6 +10,7 @@ import Moment from 'react-moment';
 import Badge from 'react-bootstrap/Badge';
 
 import styled from 'styled-components'
+import { submitForInference } from '../utils/inferenceHelpers'
 
 const ListItem = styled.p`
 width: 100%;
@@ -132,12 +135,30 @@ export default class NodeListItem extends Component {
     constructor(props) {
         super()
         this.node = props.node1;
+        this.text = props.text
         this.routeToPage = props.routeToPage
-        console.log(this.node.responses)
+        this.state = {
+            isTxConfirming: false
+        }
     };
 
-    onStartClick = () => {
-        this.routeToPage('result', '1234')
+    onStartClick = async () => {
+        console.log('clicked')
+        this.setState({
+            isTxConfirming: true
+        })
+        try {
+            let requestId = await submitForInference(this.text, this.node.address, 0)
+            this.setState({
+                isTxConfirming: false
+            })
+            this.routeToPage('result', requestId)
+        } catch (e) {
+            console.log(e)
+            this.setState({
+                isTxConfirming: false
+            })
+        }
     }
 
     render() {
@@ -156,7 +177,7 @@ export default class NodeListItem extends Component {
                                 display: 'flex', flexDirection: 'column'
                             }}>
 
-                                <EventTitle>{this.node.cost == 0 ? "Free" : this.node.cost}</EventTitle>
+                                <EventTitle>{this.node.cost == 0 ? "Free" : ethers.utils.parseEther(this.node.cost)}</EventTitle>
                                 <EventLocationTime>{this.node.address.substring(36, 42)}<br></br>
                                     {/* <Moment format=" MMM DD hh:mm - " date={this.startDate} />
                             <Moment format=" MMM DD hh:mm " date={this.endDate} /> */}
@@ -181,10 +202,11 @@ export default class NodeListItem extends Component {
                         <div style={{display: 'flex', flexDirection: 'row', marginTop: '25px', marginLeft: 'px'}}>
 
                             {this.node.responses.slice(0, 4).map((response, index) => {
-                                    return <img width={100} height={100} src={response.url} style={{ objectFit: 'cover', margin: '16px'}}></img>
+                                    return <img width={100} height={100} key={index} src={response.url} style={{ objectFit: 'cover', margin: '16px'}}></img>
                                 })}
                         </div>
 
+                       {this.state.isTxConfirming && <div className='inline-loader'></div>}
 
                     </div>
 

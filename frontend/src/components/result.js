@@ -6,6 +6,7 @@ import NodeListItem from './node-list-item';
 
 import styled from 'styled-components'
 import Button from 'react-bootstrap/Button';
+import { waitForResponse } from '../utils/inferenceHelpers';
 
 const ResultTitle = styled.p`
 
@@ -13,13 +14,12 @@ font-family: 'Satoshi';
 font-style: normal;
 font-weight: 500;
 font-size: 30px;
-line-height: 100%;
 /* identical to box height, or 96px */
 
 text-align: center;
 letter-spacing: -0.04em;
 
-margin-bottom: 100px;
+margin-bottom: 150px;
 `
 
 export default class Result extends Component {
@@ -39,18 +39,20 @@ export default class Result extends Component {
     }
 
     addListener = async () => {
-        await delay(1000)
-        this.setState({
-            loading: false,
-            resultImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/362px-Cat_August_2010-4.jpg"
+        waitForResponse((result) => {
+            this.setState({
+                loading: false,
+                resultImage: result
+            })
         })
+       
     }
 
     render() {
         return (
             <div style={{ paddingLeft: '200px', paddingRight: '200px', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
 
-                {this.state.loading && <ResultTitle>Waiting for results...</ResultTitle>}
+                {this.state.loading && <ResultTitle>Waiting for results...<br></br>It usually takes less than 20s</ResultTitle>}
                 {this.state.loading && <div className="loader" />}
 
                 {!this.state.loading && <ResultTitle>Here is your output</ResultTitle>}
