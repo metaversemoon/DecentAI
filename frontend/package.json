@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://shashank42.github.io/DecentAI/",
   "dependencies": {
     "@apollo/client": "^3.7.1",
     "@babel/core": "^7.16.0",
