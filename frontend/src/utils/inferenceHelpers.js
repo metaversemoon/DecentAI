@@ -19,6 +19,14 @@ const token_contract = "0x26b29286A6D8cE5d0BCD40121ACB8BdF120F08f4";
 
 let network = "matic"
 
+export async function getNodesCount() {
+    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( network));
+    let eventFilter = contract.filters.ResponderAdded();
+    let events = await contract.queryFilter(eventFilter);
+    return events.length
+
+}
+
 export async function getNodes() {
 
     // Get all ResponderAdded events from the InferenceManager contract
@@ -58,7 +66,7 @@ export async function getNodes() {
             let actualImageUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + data.image
 
             inferenceIds[requestId] = inferenceIds[requestId] ? inferenceIds[requestId] + 1 : 0
-            
+
             responses[responder].push({
                 requestId: requestId,
                 prompt: requests[requestId],                

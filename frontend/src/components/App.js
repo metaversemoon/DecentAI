@@ -21,6 +21,7 @@ import Result from "./result";
 import {GaslessOnboarding} from '@gelatonetwork/gasless-onboarding'
 import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboarding'
 import OutputList from "./output-list";
+import { getNodesCount } from "../utils/inferenceHelpers";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -59,7 +60,7 @@ line-height: 100%;
 text-align: center;
 letter-spacing: -0.04em;
 
-margin-top: 100px;
+margin-top: 120px;
 
 `
 
@@ -116,6 +117,9 @@ const Content = (props) => {
 
     const [gaslessConnected, setGaslessConnected] = useState(localStorage.getItem('gasless_connected') == 'true')
     const [gaslessWalletStatus, setGaslessWalletStatus] = useState('Checking wallet...')
+
+    const [nodeCount, setNodeCount] = useState(0)
+
     var text = ''
 
     // if (!isConnected) {
@@ -159,9 +163,17 @@ const Content = (props) => {
         checkGaslessWalletConnect()
     }
 
+    const getNodeCount = async () => {
+        let nodeCount = await getNodesCount()
+        setNodeCount(nodeCount)
+    }
     
     useEffect(() => {
         checkGaslessWalletConnect()
+      }, []);
+
+      useEffect(() => {
+        getNodeCount()
       }, []);
 
 
@@ -193,6 +205,8 @@ const Content = (props) => {
             <Button id="start-button" onClick={() => connectWallet()}>{gaslessWalletStatus}</Button>
 
         }
+
+        {nodeCount > 0 && <TypePropmtTitle style={{marginTop: '0px', paddingTop: '18px', fontSize: '20px'}}>{nodeCount} nodes online</TypePropmtTitle>}
         </div>
 
     </>
