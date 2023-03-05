@@ -28,8 +28,7 @@ let loginConfig = {
         rpcUrl: "https://goerli.base.org"
     },
     domains: [
-        'http://localhost:3000',
-        'https://shashank42.github.io'
+        window.location.origin
     ]
 
 }
