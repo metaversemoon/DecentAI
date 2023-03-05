@@ -14,11 +14,12 @@ import { providers } from "./provider";
 const inference_manager_contract = "0x7C14dd39c29a22E69b99E41f7A3E607bfb63d244";
 const token_contract = "0x8af1731Da3e3a0705f5B9738FAD983Cd24332d45";
 
+let network = "matic"
 
 export async function getNodes() {
 
     // Get all ResponderAdded events from the InferenceManager contract
-    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( "matic" ));
+    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( network));
 
     let reqEventFilter = contract.filters.RequestRecieved();
     let reqEvents = await contract.queryFilter(reqEventFilter);
@@ -108,6 +109,16 @@ export const signedTokenContract = async () => {
     return contract
 }
 
+export const tokenContract = async () => {
+    const contract = new ethers.Contract(token_contract, TokenArtifacts, await providers( network ));
+    return contract
+}
+
+export const AIContract = async () => {
+    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( network ));
+    return contract
+}
+
 export async function submitForInference(text, node, offer) {
 
     let token = await signedTokenContract()
@@ -126,9 +137,34 @@ export async function submitForInference(text, node, offer) {
     return requestId
 }
 
+export async function submitForInferenceGasless(text, node, offer) {
+
+    let token = await tokenContract()
+    let wallet = window.gaslessWallet.getGaslessWallet()
+    await wallet.init()
+
+    if (token.allowance(node) < offer) {
+        console.log('not enough allowance.')
+        let tx = await token.populateTransaction.approve(node, ethers.constants.MaxInt256)
+        await wallet.sponsorTransaction(tx.to, tx.data)
+    } else {
+        console.log('enough allowance.')
+    }
+
+    let contract = await AIContract()
+
+    let tx = await contract.populateTransaction.requestInference(text, node, offer)
+    await wallet.sponsorTransaction(tx.to, tx.data)
+
+    let currentId = await contract.requestId()
+    let newId = parseInt(currentId) + 1
+    console.log('inference request success: new Id' + newId)
+    return newId
+}
+
 export async function waitForResponse(requestId, callback) {
     console.log('listening for event ' + requestId)
-    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( "matic" ));
+    const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( network ));
 
     contract.on("ResponseRecieved", (id, node, url) => {
         console.log('Response is here: ' + id, node, url);

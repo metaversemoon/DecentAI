@@ -112,41 +112,53 @@ const Content = (props) => {
     const [action, setAction] = useState('');
     const {routeToPage} = props;
 
-    const [gaslessConnected, setGaslessConnected] = useState(false)
-
-    checkGaslessWalletConnect()
-    
+    const [gaslessConnected, setGaslessConnected] = useState(localStorage.getItem('gasless_connected') == 'true')
+    const [gaslessWalletStatus, setGaslessWalletStatus] = useState('Connecting wallet...')
     var text = ''
 
     // if (!isConnected) {
     //     return <ConnectKitButton/>
     // }
 
+    console.log('connected' + gaslessConnected)
     let loginConfig = {
         chain: {
             id: 84531,
             rpcUrl: "https://goerli.base.org"
         },
+        domains: [
+            'http://localhost:3000'
+        ]
 
     }
     let walletConfig = {
         apiKey: '3vA3QjzNh9099IAw5VA_wlGaNpGSf2rDh_tfhtt4alY_'
     }
-    let gaslessWallet = GaslessOnboarding(loginConfig, walletConfig)
+    let gaslessWallet = new GaslessOnboarding(loginConfig, walletConfig)
 
+    window.gaslessWallet = gaslessWallet
 
     const checkGaslessWalletConnect = async () => {
+       
         await gaslessWallet.init()
-        let provider = await gaslessWallet.getProvider()
+        let provider = gaslessWallet.getProvider()
         if (provider != null) {
             setGaslessConnected(true)
+            localStorage.setItem('gasless_connected', true)
+            localStorage.setItem('gasless_address', gaslessWallet.getGaslessWallet().getAddress())
+        } else {
+            setGaslessWalletStatus('Connect wallet')
         }
     }
 
     const connectWallet = async () => {
+        await gaslessWallet.init()
         await gaslessWallet.login()
         checkGaslessWalletConnect()
     }
+
+
+    checkGaslessWalletConnect()
 
     return <>
 
@@ -154,7 +166,7 @@ const Content = (props) => {
 
      
         <div style={{display: 'flex', flexDirection: 'column', zIndex: 100}}>
-        <IndexHeader routeToPage={routeToPage} ></IndexHeader>
+        <IndexHeader routeToPage={routeToPage} gaslessConnected={gaslessConnected} ></IndexHeader>
             <HeaderTitle>Create AI images in a decentralised way </HeaderTitle>
         </div>
 
@@ -173,7 +185,7 @@ const Content = (props) => {
         }
         {
             !gaslessConnected && 
-            <Button id="start-button" onClick={() => connectWallet()}>Connect Wallet</Button>
+            <Button id="start-button" onClick={() => connectWallet()}>{gaslessWalletStatus}</Button>
 
         }
         </div>
