@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -115,7 +115,7 @@ const Content = (props) => {
     const {routeToPage} = props;
 
     const [gaslessConnected, setGaslessConnected] = useState(localStorage.getItem('gasless_connected') == 'true')
-    const [gaslessWalletStatus, setGaslessWalletStatus] = useState('Connecting wallet...')
+    const [gaslessWalletStatus, setGaslessWalletStatus] = useState('Checking wallet...')
     var text = ''
 
     // if (!isConnected) {
@@ -159,8 +159,11 @@ const Content = (props) => {
         checkGaslessWalletConnect()
     }
 
+    
+    useEffect(() => {
+        checkGaslessWalletConnect()
+      }, []);
 
-    checkGaslessWalletConnect()
 
     return <>
 

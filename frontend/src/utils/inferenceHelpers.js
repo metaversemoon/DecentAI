@@ -39,6 +39,8 @@ export async function getNodes() {
 
     const responses = {};
 
+    const inferenceIds = {}
+
     for (let i = 0; i < respEvents.length; i++) {
 
         const responder = respEvents[i].args[1];
@@ -46,17 +48,22 @@ export async function getNodes() {
             responses[responder] = [];
         }
         const requestId = ethers.BigNumber.from(respEvents[i].args[0]).toString();
-        const url = respEvents[i].args[2];
+        const url = 'https://punksvsapes.mypinata.cloud/ipfs/' + respEvents[i].args[2];
 
         try {
+            console.log(url)
+
             let response = await fetch(url)
             let data = await response.json()
-            let actualImageUrl = data.image
+            let actualImageUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + data.image
 
+            inferenceIds[requestId] = inferenceIds[requestId] ? inferenceIds[requestId] + 1 : 0
+            
             responses[responder].push({
                 requestId: requestId,
                 prompt: requests[requestId],                
                 url: actualImageUrl,
+                inferenceId: inferenceIds[requestId]
             });
         } catch (e) {
             console.log(e)
@@ -182,7 +189,10 @@ export async function waitForResponse(requestId, callback) {
 }
 
 export async function submitRating( requestId, inferenceId, rating ) {
-    
+    console.log('submitting rating ' + requestId, inferenceId, rating)
+
+    let wallet = window.gaslessWallet.getGaslessWallet()
+    await wallet.init()
     let contract = await AIContract()
     let tx = await contract.populateTransaction.rateInference(requestId, inferenceId, rating)
     await wallet.sponsorTransaction(tx.to, tx.data)
