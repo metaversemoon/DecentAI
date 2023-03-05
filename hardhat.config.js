@@ -69,8 +69,9 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     // apiKey: "87RP6PBVRSBTRE2U8IB7JZ4765M31BRJEX",
-    apiKey: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
+    // apiKey: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
     apiKey: {
+      polygon: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
       baseGoerli: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
     },
     customChains: [

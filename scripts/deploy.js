@@ -58,6 +58,9 @@ async function main() {
   var tx = await inferenceManager.setNodeAddress(decentAINode.address, overrides);
   await tx.wait();
 
+  tx = await decentAINode.transferOwnership(inferenceManager.address, overrides);
+  await tx.wait();
+
   console.log("Token address:", token.address);
   console.log("DecentAINode address:", decentAINode.address);
 
@@ -89,7 +92,7 @@ async function main() {
       console.log(`stdout: ${stdout}`);
     });
 
-    exec(`npx hardhat verify --contract "contracts/DecentAINode.sol:DecentAINode" --network ${network.name} ${token.address} ${inferenceManager.address}`, (error, stdout, stderr) => {
+    exec(`npx hardhat verify --contract "contracts/DecentAINode.sol:DecentAINode" --network ${network.name} ${token.address}`, (error, stdout, stderr) => {
       if (error) {
           console.log(`error: ${error.message}`);
           return;
