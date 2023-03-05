@@ -201,7 +201,7 @@ export default class NodeListItem extends Component {
 
                         <div style={{display: 'flex', flexDirection: 'row', marginTop: '25px', marginLeft: 'px'}}>
 
-                            {this.node.responses.slice(0, 4).map((response, index) => {
+                            {this.node.responses.filter((resp) => resp.url && resp.url.length > 0).slice(0, 4).map((response, index) => {
                                     return <img width={100} height={100} key={index} src={response.url} style={{ objectFit: 'cover', margin: '16px'}}></img>
                                 })}
                         </div>
