@@ -29,7 +29,7 @@ let loginConfig = {
     },
     domains: [
         'http://localhost:3000',
-        'https://shashank42.github.io/DecentAI/'
+        'https://shashank42.github.io'
     ]
 
 }
