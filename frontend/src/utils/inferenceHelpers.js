@@ -45,16 +45,14 @@ export async function getNodes() {
         const url = respEvents[i].args[2];
 
         try {
-            // console.log('lol' + url)
-            // let response = await fetch(url)
-            // let data = await response.json()
-            // console.log('lol' + data)
-            // let actualImageUrl = data.image
+            let response = await fetch(url)
+            let data = await response.json()
+            let actualImageUrl = data.image
 
             responses[responder].push({
                 requestId: requestId,
                 prompt: requests[requestId],                
-                url: url,
+                url: actualImageUrl,
             });
         } catch (e) {
             console.log(e)
@@ -125,7 +123,7 @@ export async function submitForInference(text, node, offer) {
     let requestId = await contract.requestInference(text, node, offer)
 
     console.log('inference request success')
-    return 25
+    return requestId
 }
 
 export async function waitForResponse(requestId, callback) {

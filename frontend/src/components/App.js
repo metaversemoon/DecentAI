@@ -127,7 +127,7 @@ const Content = (props) => {
 
         <img style={{width: '100%', height: '350px', position: 'absolute', top: '0px', zIndex: 0}} src="/images/header-background.png"></img>
 
-        <TypePropmtTitle>Start by typing a propmt</TypePropmtTitle>
+        <TypePropmtTitle>Start by typing a prompt</TypePropmtTitle>
 
         <input className="Prompt-Input" placeholder="Type a prompt"
             onChange={(evt) => { text = evt.target.value }} ></input>
