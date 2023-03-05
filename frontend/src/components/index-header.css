@@ -1,0 +1,51 @@
+#main-header {
+    width: 100%;
+}
+
+#create-event-but {
+    position: absolute;
+width: 151px;
+height: 45px;
+left: 1135px;
+top: 23px;
+
+background: #FFFFFF;
+border-radius: 100px;
+font-family: 'Satoshi';
+font-style: normal;
+font-weight: 700;
+font-size: 15px;
+line-height: 100%;
+color: #000000;
+}
+
+#event-header-title {
+    position: absolute;
+    top: 135px;
+    font-size: 60px;
+}
+
+#event-header-subtitle {
+    position: absolute;
+width: 150px;
+height: 20px;
+left: 144px;
+top: 40px;
+
+font-family: 'Satoshi';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 100%;
+/* identical to box height, or 20px */
+
+letter-spacing: -0.04em;
+
+color: #FFFFFF;
+}
+
+#lens-badge {
+    position: absolute;
+    right: 30px;
+    top: 80px;
+}
