@@ -18,6 +18,9 @@ import IndexHeader from './index-header'
 import NodeList from "./node-list";
 import Result from "./result";
 
+import {GaslessOnboarding} from '@gelatonetwork/gasless-onboarding'
+import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboarding'
+
 const alchemyId = process.env.ALCHEMY_ID;
 
 const chains = [chain.polygon];
@@ -109,10 +112,40 @@ const Content = (props) => {
     const [action, setAction] = useState('');
     const {routeToPage} = props;
 
+    const [gaslessConnected, setGaslessConnected] = useState(false)
+
+    checkGaslessWalletConnect()
+    
     var text = ''
 
-    if (!isConnected) {
-        return <ConnectKitButton/>
+    // if (!isConnected) {
+    //     return <ConnectKitButton/>
+    // }
+
+    let loginConfig = {
+        chain: {
+            id: 84531,
+            rpcUrl: "https://goerli.base.org"
+        },
+
+    }
+    let walletConfig = {
+        apiKey: '3vA3QjzNh9099IAw5VA_wlGaNpGSf2rDh_tfhtt4alY_'
+    }
+    let gaslessWallet = GaslessOnboarding(loginConfig, walletConfig)
+
+
+    const checkGaslessWalletConnect = async () => {
+        await gaslessWallet.init()
+        let provider = await gaslessWallet.getProvider()
+        if (provider != null) {
+            setGaslessConnected(true)
+        }
+    }
+
+    const connectWallet = async () => {
+        await gaslessWallet.login()
+        checkGaslessWalletConnect()
     }
 
     return <>
@@ -127,14 +160,24 @@ const Content = (props) => {
 
         <img style={{width: '100%', height: '350px', position: 'absolute', top: '0px', zIndex: 0}} src="/images/header-background.png"></img>
 
-        <TypePropmtTitle>Start by typing a prompt</TypePropmtTitle>
+        {gaslessConnected && 
+        <>
+            <TypePropmtTitle>Start by typing a prompt</TypePropmtTitle>
 
-        <input className="Prompt-Input" placeholder="Type a prompt"
-            onChange={(evt) => { text = evt.target.value }} ></input>
+            <input className="Prompt-Input" placeholder="Type a prompt"
+                onChange={(evt) => { text = evt.target.value }} ></input>
 
-        <Button id="start-button" onClick={() => routeToPage('start', text)}>Generate now</Button>{' '}
+            <Button id="start-button" onClick={() => routeToPage('start', text)}>Generate now</Button>{' '}
 
+        </>
+        }
+        {
+            !gaslessConnected && 
+            <Button id="start-button" onClick={() => connectWallet()}>Connect Wallet</Button>
+
+        }
         </div>
+
     </>
 }
 
