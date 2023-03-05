@@ -29,7 +29,7 @@ async function main() {
   console.log("Nonce of deployer account : ", await deployer.getTransactionCount());
 
 
-  overrides = { gasLimit: 5000000, gasPrice: ethers.utils.parseUnits('300', 'gwei') };
+  overrides = { gasLimit: 5000000, gasPrice: ethers.utils.parseUnits('2', 'gwei') };
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
@@ -63,7 +63,7 @@ async function main() {
 
   await sleep(150000);
 
-  if (network.name === "matic") {
+  if (network.name === "matic" || network.name === "baseGoerli") {
 
     exec(`npx hardhat verify --contract "contracts/DecentAI.sol:DecentAI" --network ${network.name} ${inferenceManager.address}`, (error, stdout, stderr) => {
       if (error) {

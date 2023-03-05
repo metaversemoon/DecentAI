@@ -70,7 +70,21 @@ module.exports = {
     // Obtain one at https://etherscan.io/
     // apiKey: "87RP6PBVRSBTRE2U8IB7JZ4765M31BRJEX",
     apiKey: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
+    apiKey: {
+      baseGoerli: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
+    },
+    customChains: [
+      {
+        network: "baseGoerli",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://api-goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org"
+        }
+      }
+    ]
   }
+  
 };
 
 
