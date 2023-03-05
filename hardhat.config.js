@@ -21,6 +21,7 @@ module.exports = {
   networks: {
     hardhat: {
       chainId: 1337, // We set 1337 to make interacting with MetaMask simpler
+      allowUnlimitedContractSize: true,
     },
     matic: {
       url: 'https://polygon-mainnet.infura.io/v3/f9f9c829617b43248215db1314a0fbd9',
@@ -49,13 +50,41 @@ module.exports = {
       //   vaultAccountIds: process.env.FIREBLOCKS_VAULT_ACCOUNT_IDS,
       // }
     },
+    baseGoerli: {
+      url: "https://goerli.base.org",
+      gasPrice: 60000000000,
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+      chainId: 84531
+      // fireblocks: {
+      //   apiBaseUrl: ApiBaseUrl.Sandbox, // If using a sandbox workspace
+      //   privateKey: pvtKey(),
+      //   apiKey: process.env.FIREBLOCKS_API_KEY,
+      //   vaultAccountIds: process.env.FIREBLOCKS_VAULT_ACCOUNT_IDS,
+      // }
+    },
   },
   etherscan: {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     // apiKey: "87RP6PBVRSBTRE2U8IB7JZ4765M31BRJEX",
     apiKey: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
+    apiKey: {
+      baseGoerli: "TAMV18WAXE345WENH3GF2F8GFQGWADH3F6",
+    },
+    customChains: [
+      {
+        network: "baseGoerli",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://api-goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org"
+        }
+      }
+    ]
   }
+  
 };
 
 
