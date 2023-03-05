@@ -181,4 +181,10 @@ export async function waitForResponse(requestId, callback) {
     });
 }
 
+export async function submitRating( requestId, inferenceId, rating ) {
+    
+    let contract = await AIContract()
+    let tx = await contract.populateTransaction.rateInference(requestId, inferenceId, rating)
+    await wallet.sponsorTransaction(tx.to, tx.data)
+}
 

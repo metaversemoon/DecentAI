@@ -25,15 +25,3 @@ export async function getInferences() {
 
 
 
-export async function submitRating( requestId, inferenceId, rating ) {
-    
-        // Ethers code to submit rating
-    
-        return {
-            success: true,
-            message: "Responses submitted successfully",
-            txId: "0x1234567890",
-        }
-}
-
-

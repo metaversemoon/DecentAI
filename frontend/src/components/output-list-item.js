@@ -11,7 +11,7 @@ import Badge from 'react-bootstrap/Badge';
 
 import styled from 'styled-components'
 import { submitForInference, submitForInferenceGasless } from '../utils/inferenceHelpers'
-import { submitRating } from '../utils/ratingHelper';
+import { submitRating } from '../utils/inferenceHelpers';
 
 const ListItem = styled.p`
 width: 100%;
