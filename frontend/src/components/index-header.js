@@ -29,8 +29,14 @@ function IndexHeader(props) {
 
         <>
             <h4 id="event-header-subtitle">Decent AI</h4>
-            <Button id="create-event-but" onClick={() => routeToPage('create')}>Run AI node</Button>{' '}
+
+            <div style={{display: 'flex', flexDirection: 'row', position: 'absolute', right: 0, top: 30, marginRight: '24px'}} >
+            {/* <Button id="create-event-but" onClick={() => routeToPage('create')}>Run AI node</Button>{' '} */}
+            <Button id="create-event-but" style={{marginRight: '16px'}} onClick={() => routeToPage('rate')}>Recent creations</Button>{' '}
+
             <Button id="create-event-but" >{truncateEthAddress(localStorage.getItem('gasless_address'))}</Button>{' '}
+            </div>
+           
 
             <div className="absolute top-0 right-0 p-4">
                 {/* <ConnectKitButton.Custom 

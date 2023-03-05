@@ -20,6 +20,7 @@ import Result from "./result";
 
 import {GaslessOnboarding} from '@gelatonetwork/gasless-onboarding'
 import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboarding'
+import OutputList from "./output-list";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -97,6 +98,7 @@ class App extends Component {
                                                                          text={this.state.pageData}></NodeList> : ''}
                         {this.state.page === 'result' ? <Result routeToPage={this.routeToPage}
                                                                          requestId={this.state.pageData}></Result> : ''}
+                        {this.state.page === 'rate' ? <OutputList routeToPage={this.routeToPage} ></OutputList> : ''}
 
                            
                         </ConnectKitProvider>

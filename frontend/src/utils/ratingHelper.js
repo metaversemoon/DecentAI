@@ -25,7 +25,7 @@ export async function getInferences() {
 
 
 
-export function submitRating( requestId, inferenceId, rating ) {
+export async function submitRating( requestId, inferenceId, rating ) {
     
         // Ethers code to submit rating
     

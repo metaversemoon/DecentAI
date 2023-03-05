@@ -3,11 +3,8 @@
 }
 
 #create-event-but {
-    position: absolute;
 width: 151px;
 height: 45px;
-left: 1135px;
-top: 23px;
 
 background: #FFFFFF;
 border-radius: 100px;
