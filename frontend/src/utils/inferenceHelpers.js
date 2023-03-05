@@ -11,6 +11,9 @@ import TokenArtifacts from "../abis/token.json";
 
 import { providers } from "./provider";
 
+import {GaslessOnboarding} from '@gelatonetwork/gasless-onboarding'
+import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboarding'
+
 // const inference_manager_contract = "0x7C14dd39c29a22E69b99E41f7A3E607bfb63d244";
 // const token_contract = "0x8af1731Da3e3a0705f5B9738FAD983Cd24332d45";
 
@@ -18,6 +21,23 @@ const inference_manager_contract = "0x9d5CD448332A857F6BfDb7541CFc33C61789BB41";
 const token_contract = "0x26b29286A6D8cE5d0BCD40121ACB8BdF120F08f4";
 
 let network = "matic"
+
+let loginConfig = {
+    chain: {
+        id: 84531,
+        rpcUrl: "https://goerli.base.org"
+    },
+    domains: [
+        'http://localhost:3000',
+        'https://shashank42.github.io/DecentAI/'
+    ]
+
+}
+let walletConfig = {
+    apiKey: '3vA3QjzNh9099IAw5VA_wlGaNpGSf2rDh_tfhtt4alY_'
+}
+let gaslessWallet = new GaslessOnboarding(loginConfig, walletConfig)
+
 
 export async function getNodesCount() {
     const contract = new ethers.Contract(inference_manager_contract, InferenceManagerArtifacts, await providers( network));
@@ -158,7 +178,10 @@ export async function submitForInference(text, node, offer) {
 export async function submitForInferenceGasless(text, node, offer) {
 
     let token = await tokenContract()
-    let wallet = window.gaslessWallet.getGaslessWallet()
+    await gaslessWallet.init()
+
+    let wallet = gaslessWallet.getGaslessWallet()
+
     await wallet.init()
 
     if (token.allowance(node) < offer) {
@@ -199,7 +222,9 @@ export async function waitForResponse(requestId, callback) {
 export async function submitRating( requestId, inferenceId, rating ) {
     console.log('submitting rating ' + requestId, inferenceId, rating)
 
-    let wallet = window.gaslessWallet.getGaslessWallet()
+    await gaslessWallet.init()
+
+    let wallet = gaslessWallet.getGaslessWallet()
     await wallet.init()
     let contract = await AIContract()
     let tx = await contract.populateTransaction.rateInference(requestId, inferenceId, rating)
