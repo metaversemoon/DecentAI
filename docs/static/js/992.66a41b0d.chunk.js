@@ -1,0 +1,1 @@
+(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[992,558],{7420:()=>{},95856:()=>{},78848:()=>{}}]);
