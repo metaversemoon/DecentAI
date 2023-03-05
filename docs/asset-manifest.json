@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/DecentAI/static/css/main.974bd778.css",
-    "main.js": "/DecentAI/static/js/main.56c392e0.js",
+    "main.js": "/DecentAI/static/js/main.0d758071.js",
     "static/js/678.09b01c42.chunk.js": "/DecentAI/static/js/678.09b01c42.chunk.js",
     "static/js/654.d5b4d9b9.chunk.js": "/DecentAI/static/js/654.d5b4d9b9.chunk.js",
     "static/js/978.dbf7b452.chunk.js": "/DecentAI/static/js/978.dbf7b452.chunk.js",
@@ -23,7 +23,7 @@
     "static/js/196.81ca66ba.chunk.js": "/DecentAI/static/js/196.81ca66ba.chunk.js",
     "index.html": "/DecentAI/index.html",
     "main.974bd778.css.map": "/DecentAI/static/css/main.974bd778.css.map",
-    "main.56c392e0.js.map": "/DecentAI/static/js/main.56c392e0.js.map",
+    "main.0d758071.js.map": "/DecentAI/static/js/main.0d758071.js.map",
     "678.09b01c42.chunk.js.map": "/DecentAI/static/js/678.09b01c42.chunk.js.map",
     "937.ac691b10.chunk.js.map": "/DecentAI/static/js/937.ac691b10.chunk.js.map",
     "878.176eadc5.chunk.js.map": "/DecentAI/static/js/878.176eadc5.chunk.js.map",
@@ -35,6 +35,6 @@
   },
   "entrypoints": [
     "static/css/main.974bd778.css",
-    "static/js/main.56c392e0.js"
+    "static/js/main.0d758071.js"
   ]
 }

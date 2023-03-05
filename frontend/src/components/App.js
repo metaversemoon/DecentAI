@@ -187,7 +187,7 @@ const Content = (props) => {
             <HeaderTitle>Create AI images in a decentralised way </HeaderTitle>
         </div>
 
-        <img style={{width: '100%', height: '350px', position: 'absolute', top: '0px', zIndex: 0}} src="/images/header-background.png"></img>
+        <img style={{width: '100%', height: '350px', position: 'absolute', top: '0px', zIndex: 0}} src="https://shashank42.github.io/DecentAI/images/header-background.png"></img>
 
         {gaslessConnected && 
         <>
