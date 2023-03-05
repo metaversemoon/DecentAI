@@ -39,11 +39,16 @@ export default class Result extends Component {
     }
 
     addListener = async () => {
-        waitForResponse(this.requestId, (result) => {
+        waitForResponse(this.requestId, async (result) => {
             console.log('all done, updating state')
+            let ipfsUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + result
+            let response = await fetch(ipfsUrl)
+            let data = await response.json()
+            let actualImageUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + data.image
+
             this.setState({
                 loading: false,
-                resultImage: result
+                resultImage: actualImageUrl
             })
         })
        

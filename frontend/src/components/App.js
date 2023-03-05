@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -17,6 +17,10 @@ import IndexHeader from './index-header'
 
 import NodeList from "./node-list";
 import Result from "./result";
+
+import {GaslessOnboarding} from '@gelatonetwork/gasless-onboarding'
+import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboarding'
+import OutputList from "./output-list";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -94,6 +98,7 @@ class App extends Component {
                                                                          text={this.state.pageData}></NodeList> : ''}
                         {this.state.page === 'result' ? <Result routeToPage={this.routeToPage}
                                                                          requestId={this.state.pageData}></Result> : ''}
+                        {this.state.page === 'rate' ? <OutputList routeToPage={this.routeToPage} ></OutputList> : ''}
 
                            
                         </ConnectKitProvider>
@@ -109,11 +114,56 @@ const Content = (props) => {
     const [action, setAction] = useState('');
     const {routeToPage} = props;
 
+    const [gaslessConnected, setGaslessConnected] = useState(localStorage.getItem('gasless_connected') == 'true')
+    const [gaslessWalletStatus, setGaslessWalletStatus] = useState('Checking wallet...')
     var text = ''
 
-    if (!isConnected) {
-        return <ConnectKitButton/>
+    // if (!isConnected) {
+    //     return <ConnectKitButton/>
+    // }
+
+    console.log('connected' + gaslessConnected)
+    let loginConfig = {
+        chain: {
+            id: 84531,
+            rpcUrl: "https://goerli.base.org"
+        },
+        domains: [
+            'http://localhost:3000'
+        ]
+
     }
+    let walletConfig = {
+        apiKey: '3vA3QjzNh9099IAw5VA_wlGaNpGSf2rDh_tfhtt4alY_'
+    }
+    let gaslessWallet = new GaslessOnboarding(loginConfig, walletConfig)
+
+    window.gaslessWallet = gaslessWallet
+
+    const checkGaslessWalletConnect = async () => {
+       
+        await gaslessWallet.init()
+        let provider = gaslessWallet.getProvider()
+        if (provider != null) {
+            setGaslessConnected(true)
+            localStorage.setItem('gasless_connected', true)
+            localStorage.setItem('gasless_address', gaslessWallet.getGaslessWallet().getAddress())
+        } else {
+            setGaslessWalletStatus('Connect wallet')
+        }
+    }
+
+    const connectWallet = async () => {
+        await gaslessWallet.init()
+        await gaslessWallet.login()
+        checkGaslessWalletConnect()
+    }
+
+    
+    useEffect(() => {
+        checkGaslessWalletConnect()
+      }, []);
+
 
     return <>
 
@@ -121,20 +171,30 @@ const Content = (props) => {
 
      
         <div style={{display: 'flex', flexDirection: 'column', zIndex: 100}}>
-        <IndexHeader routeToPage={routeToPage} ></IndexHeader>
+        <IndexHeader routeToPage={routeToPage} gaslessConnected={gaslessConnected} ></IndexHeader>
             <HeaderTitle>Create AI images in a decentralised way </HeaderTitle>
         </div>
 
         <img style={{width: '100%', height: '350px', position: 'absolute', top: '0px', zIndex: 0}} src="/images/header-background.png"></img>
 
-        <TypePropmtTitle>Start by typing a prompt</TypePropmtTitle>
+        {gaslessConnected && 
+        <>
+            <TypePropmtTitle>Start by typing a prompt</TypePropmtTitle>
 
-        <input className="Prompt-Input" placeholder="Type a prompt"
-            onChange={(evt) => { text = evt.target.value }} ></input>
+            <input className="Prompt-Input" placeholder="Type a prompt"
+                onChange={(evt) => { text = evt.target.value }} ></input>
 
-        <Button id="start-button" onClick={() => routeToPage('start', text)}>Generate now</Button>{' '}
+            <Button id="start-button" onClick={() => routeToPage('start', text)}>Generate now</Button>{' '}
 
+        </>
+        }
+        {
+            !gaslessConnected && 
+            <Button id="start-button" onClick={() => connectWallet()}>{gaslessWalletStatus}</Button>
+
+        }
         </div>
+
     </>
 }
 

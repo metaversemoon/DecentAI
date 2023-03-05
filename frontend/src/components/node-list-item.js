@@ -10,7 +10,7 @@ import Moment from 'react-moment';
 import Badge from 'react-bootstrap/Badge';
 
 import styled from 'styled-components'
-import { submitForInference } from '../utils/inferenceHelpers'
+import { submitForInference, submitForInferenceGasless } from '../utils/inferenceHelpers'
 
 const ListItem = styled.p`
 width: 100%;
@@ -148,7 +148,7 @@ export default class NodeListItem extends Component {
             isTxConfirming: true
         })
         try {
-            let requestId = await submitForInference(this.text, this.node.address, 0)
+            let requestId = await submitForInferenceGasless(this.text, this.node.address, 0)
             this.setState({
                 isTxConfirming: false
             })
