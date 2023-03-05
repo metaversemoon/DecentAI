@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 
-contract DecentralizedAI is ERC20, AccessControl {
+contract DecentAICoin is ERC20, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor(address minter) ERC20("DecentralizedAI", "dAI") {
+    constructor(address minter) ERC20("DecentAICoin", "DAIC") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, minter);
     }
