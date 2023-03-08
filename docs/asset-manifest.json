@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/DecentAI/static/css/main.974bd778.css",
-    "main.js": "/DecentAI/static/js/main.f9885fec.js",
+    "main.css": "/DecentAI/static/css/main.cbb7f1c8.css",
+    "main.js": "/DecentAI/static/js/main.4a92f91a.js",
     "static/js/678.09b01c42.chunk.js": "/DecentAI/static/js/678.09b01c42.chunk.js",
     "static/js/654.d5b4d9b9.chunk.js": "/DecentAI/static/js/654.d5b4d9b9.chunk.js",
     "static/js/978.dbf7b452.chunk.js": "/DecentAI/static/js/978.dbf7b452.chunk.js",
@@ -22,8 +22,8 @@
     "static/js/962.1c6fcb13.chunk.js": "/DecentAI/static/js/962.1c6fcb13.chunk.js",
     "static/js/196.81ca66ba.chunk.js": "/DecentAI/static/js/196.81ca66ba.chunk.js",
     "index.html": "/DecentAI/index.html",
-    "main.974bd778.css.map": "/DecentAI/static/css/main.974bd778.css.map",
-    "main.f9885fec.js.map": "/DecentAI/static/js/main.f9885fec.js.map",
+    "main.cbb7f1c8.css.map": "/DecentAI/static/css/main.cbb7f1c8.css.map",
+    "main.4a92f91a.js.map": "/DecentAI/static/js/main.4a92f91a.js.map",
     "678.09b01c42.chunk.js.map": "/DecentAI/static/js/678.09b01c42.chunk.js.map",
     "937.ac691b10.chunk.js.map": "/DecentAI/static/js/937.ac691b10.chunk.js.map",
     "878.176eadc5.chunk.js.map": "/DecentAI/static/js/878.176eadc5.chunk.js.map",
@@ -34,7 +34,7 @@
     "196.81ca66ba.chunk.js.map": "/DecentAI/static/js/196.81ca66ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.974bd778.css",
-    "static/js/main.f9885fec.js"
+    "static/css/main.cbb7f1c8.css",
+    "static/js/main.4a92f91a.js"
   ]
 }

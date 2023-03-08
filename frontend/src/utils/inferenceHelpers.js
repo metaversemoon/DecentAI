@@ -33,8 +33,7 @@ let loginConfig = {
         rpcUrl: "https://goerli.base.org"
     },
     domains: [
-        'http://localhost:3000',
-        'https://shashank42.github.io/DecentAI/'
+        window.location.origin
     ]
 
 }
@@ -68,7 +67,7 @@ export async function getNodes() {
     }
 
     let respEventFilter = contract.filters.ResponseRecieved();
-    let respEvents = await contract.queryFilter(respEventFilter);
+    let respEvents = (await contract.queryFilter(respEventFilter))
 
     const responses = {};
 
@@ -86,9 +85,13 @@ export async function getNodes() {
         try {
             console.log(url)
 
-            let response = await fetch(url)
-            let data = await response.json()
-            let actualImageUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + data.image
+            let actualImageUrl = ''
+            if (i <= 3) {
+                let response = await fetch(url)
+                let data = await response.json()
+                actualImageUrl = 'https://punksvsapes.mypinata.cloud/ipfs/' + data.image
+            }
+          
 
             inferenceIds[requestId] = inferenceIds[requestId] ? inferenceIds[requestId] + 1 : 0
 
