@@ -17,8 +17,13 @@ import { GaslessWalletConfig, LoginConfig} from '@gelatonetwork/gasless-onboardi
 // const inference_manager_contract = "0x7C14dd39c29a22E69b99E41f7A3E607bfb63d244";
 // const token_contract = "0x8af1731Da3e3a0705f5B9738FAD983Cd24332d45";
 
-const inference_manager_contract = "0x9d5CD448332A857F6BfDb7541CFc33C61789BB41";
-const token_contract = "0x26b29286A6D8cE5d0BCD40121ACB8BdF120F08f4";
+// Base old contracts with bug
+// const inference_manager_contract = "0x9d5CD448332A857F6BfDb7541CFc33C61789BB41";
+// const token_contract = "0x26b29286A6D8cE5d0BCD40121ACB8BdF120F08f4";
+
+// Base new contracts without bug
+const inference_manager_contract = "0x5755f4B547596c4cc45AA898e076cd75EA10f374";
+const token_contract = "0xCBd25f30FdfE9bBA2e423F90342F9d9E5bf433fa";
 
 let network = "matic"
 

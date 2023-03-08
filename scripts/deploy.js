@@ -45,6 +45,7 @@ async function main() {
   // overrides.nonce = 131;
 
   const Token = await ethers.getContractFactory("DecentAICoin");
+  console.log("Before coin")
   const token = await Token.deploy(inferenceManager.address, overrides);
   console.log(token.deployTransaction);
   await token.deployed();

@@ -203,7 +203,7 @@ contract DecentAI is ERC721, ERC721URIStorage, Ownable {
         emit RatingRecieved(id, inferenceId, responses[id][inferenceId].responder, msg.sender, rating);
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to, string memory uri) internal {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

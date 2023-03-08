@@ -12,7 +12,7 @@ contract DecentAINode is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("Decent AI Nodes", "DAIN") {}
+    constructor() ERC721("Decent AI Nodes", "DAIN"){}
 
     function safeMint(address to, string memory uri) public onlyOwner returns (uint256) {
         uint256 tokenId = _tokenIdCounter.current();
